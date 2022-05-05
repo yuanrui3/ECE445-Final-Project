@@ -24,18 +24,7 @@ void ADS1299::setup(int _DRDY){
     // 1 MHz
 
     spi_in_use = new SPIClass(HSPI);
-    //spi_in_use->setDataMode(SPI_MODE0);
-    //spi_in_use->setBitOrder(SPI_MSBFIRST);
-    //spi_in_use->setClockDivider(SPI_CLOCK_DIV16);
-    //spi_in_use->begin(12, 13, 11, 10); //SCLK, MISO, MOSI, SS
-    //spi_in_use->begin(36, 37, 35, 34);
     spi_in_use->begin(12, 13, 11, 34);
-    /*
-    pinMode(36, OUTPUT);
-    pinMode(35, OUTPUT);
-    pinMode(34, OUTPUT);
-    pinMode(37, INPUT);
-    */
     // initalize the  data ready and chip select pins:
     DRDY = _DRDY;
     //CS = 10;
@@ -45,30 +34,6 @@ void ADS1299::setup(int _DRDY){
 
     spi_in_use->beginTransaction(SPISettings(spiClk, MSBFIRST, SPI_MODE1));
     digitalWrite(CS,HIGH);
-    /*
-    digitalWrite(36, LOW);
-    digitalWrite(35, LOW);
-    digitalWrite(34, HIGH);
-    */
-    // Warning: if the CS pin ever becomes a LOW INPUT then SPI
-    // automatically switches to Slave, so the data direction of
-    // the CS pin MUST be kept as OUTPUT.
-    //SPCR |= _BV(MSTR);
-    //SPCR |= _BV(SPE);
-    
-    //set clock divider
-    //SPCR = (SPCR & ~SPI_CLOCK_MASK) | (SPI_CLOCK_DIV16 & SPI_CLOCK_MASK);  // Divides 16MHz clock by 16 to set CLK speed to 1MHz
-    //SPSR = (SPSR & ~SPI_2XCLOCK_MASK) | ((SPI_CLOCK_DIV16 >> 2) & SPI_2XCLOCK_MASK); // Divides 16MHz clock by 16 to set CLK speed to 1MHz
-    
-    //set data mode
-    //SPCR = (SPCR & ~SPI_MODE_MASK) | SPI_DATA_MODE; //clock polarity = 0; clock phase = 1 (pg. 8)
-    
-    //set bit order
-    //SPCR &= ~(_BV(DORD)); ////SPI data format is MSB (pg. 25)
-    
-    // **** ----- End of SPI Setup ----- **** //
-    
-    
     
     tCLK = 0.000666; //666 ns (Datasheet, pg. 8)
     outputCount = 0;
